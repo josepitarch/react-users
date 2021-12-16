@@ -1,40 +1,31 @@
-import useFormulario from './hooks/useFormulario'
-import Input from './components/Input'
+import { useState } from 'react'
 import Card from './components/Card'
 import Container from './components/Container'
-import Button from './components/Button'
+import UserForm from './components/UserForm'
 
 function App() {
-  const [formulario, handleChange] = useFormulario({
-    name: '',
-    lastname: '',
-    email: ''
-  })
+
+  const [usuarios, setUsuarios] = useState([])
+
+  const submit = usuario => {
+    setUsuarios([
+      ...usuarios,
+      usuario
+    ])
+  }
   
   return (
     <Container>
       <Card>
-        <form>
-          <Input
-            label='Nombre'
-            name='name'
-            onChange={ handleChange }
-            value={ formulario.name }
-          />
-          <Input
-            label='Apellido'
-            name='lastname'
-            onChange={ handleChange }
-            value={ formulario.lastname }
-          />
-          <Input
-            label='Correo'
-            name='email'
-            onChange={ handleChange }
-            value={ formulario.email }
-          />
-          <Button>Enviar</Button>
-        </form>
+        <UserForm
+          submit={ submit }
+        />
+      </Card>
+      <Card>
+        <ul>
+          { usuarios.map(el =>
+            <li key={ el.name }>{`${el.name} ${el.lastname}: ${el.email}`}</li>)}
+        </ul>
       </Card>
     </Container>
   );
